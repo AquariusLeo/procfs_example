@@ -139,7 +139,6 @@ static int __init init_procfs_example(void){
 		rv=-ENOMEM;
 		goto out;
 	}
-	//example_dir->owner=THIS_MODULE;
 
 	//======create jiffies(read only)=====
 	jiffies_file=proc_create("jiffies", 0444, example_dir, &jiffies_proc_fops);
@@ -147,7 +146,6 @@ static int __init init_procfs_example(void){
 		rv=-ENOMEM;
 		goto no_jiffies;
 	}
-	//jiffies_file->owner=THIS_MODULE;
 	
 	//=============create foo=============
 	strcpy(foo_data.name, "foo");
@@ -159,10 +157,6 @@ static int __init init_procfs_example(void){
 		rv=-ENOMEM;
 		goto no_foo;
 	}
-	//foo_file->data=&foo_data;
-	//foo_file->read_proc=proc_read_foobar;
-	//foo_file->write_proc=proc_write_foobar;
-	//foo_file->owner=THIE_MODULE;
 
 	//============create bar===============
 	strcpy(bar_data.name, "bar");
@@ -174,10 +168,6 @@ static int __init init_procfs_example(void){
 		rv=-ENOMEM;
 		goto no_bar;
 	}
-	//bar_file->data=&bar_data;
-	//bar_file->read_proc=proc_read_foobar;
-	//bar_file->write_proc=proc_write_foobar;
-	//bar_file->owner=THIS_MODULE;
 	
 	//===========create symlink==============
 	symlink=proc_symlink("jiffies_too", example_dir, "jiffies");
@@ -185,7 +175,6 @@ static int __init init_procfs_example(void){
 		rv=-ENOMEM;
 		goto no_symlink;
 	}
-	//symlink->owner=THIS_MODULE;
 
 	//=============all okay=================
 	printk(KERN_INFO"%s%s initialised\n", MODULE_NAME, MODULE_VERS);
