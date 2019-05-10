@@ -15,8 +15,9 @@
 #include <linux/proc_fs.h>
 #include <linux/jiffies.h>
 #include <linux/sched.h>
-#include <asm/uaccess.h>
-//如果是高版本内核，copy_to_user可能会报错，原因是该函数定义在include/linux/uaccess.h中，请将上一行改为#include <linux/uaccess.h>
+#include <linux/uaccess.h>
+//尽量不要使用#include <asm/uaccess.h>，有些低版本内核copy_{to/from}_user()定义在/include/asm-generic/uaccess.h中，一些高版本定义
+//在/include/linux/uaccess.h中，而<linux/uaccess.h>包含了<asm/uaccess.h>，使用#include <linux/uaccess.h>可以保证高低版本都适用
 
 #define MODULE_VERS "1.0"
 #define MODULE_NAME "procfs_example"
@@ -204,5 +205,6 @@ static void __exit cleanup_procfs_example(void){
 
 module_init(init_procfs_example);
 module_exit(cleanup_procfs_example);
+MODULE_LICENSE("GPL");   //模块许可声明
 MODULE_AUTHOR("Zhang Le");
 MODULE_DESCRIPTION("proc filesystem example");
